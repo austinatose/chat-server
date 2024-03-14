@@ -1,0 +1,10 @@
+{
+    "name": "chatroom",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+      "client": "python3 -m http.server 8000"
+    },
+    "author": "austin",
+    "license": "MIT"
+  }
