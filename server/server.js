@@ -68,27 +68,39 @@ io.on("connection", socket => {
     client.room = room;
     console.log(client.room)
     socket.emit("setRoomCode", roomCode);
+    socket.emit("newMessage", "Room created");
   });
 
   socket.on("joinRoom", (roomCode) => {
     console.log("joinRoom", roomCode);
+    let pass = false;
     for (let room of rooms) {
       if (room.id === roomCode) {
         room.addClient(client);
         console.log("new client added to room", room.id)
+        client.room = room;
+        for (let c of client.room.clients)
+          c.socket.emit("newMessage", client.name + " joined the room");
         socket.emit("setRoomCode", roomCode);
+        pass = true;
       }
+    }
+    if (!pass) {
+      socket.emit("newMessage", "Room not found"); // this behaviour could be improved
     }
   });
 
   socket.on("disconnect", () => {
     if (client.room) {
+      for (let c of client.room.clients)
+        c.socket.emit("newMessage", client.name + " disconnected");
       client.room.removeClient(client);
     }
     clients.delete(client);
     // clients.forEach((c) => {
     //   c.socket.emit("clientDisconnected", client.id);
     // });
+    // no need for this as there are no changes on client side, just broadcasting message will do
   });
 })
 
