@@ -2,7 +2,8 @@ let currentRoomCode = null;
 let messages = []; // local messages array is for display only
 let name = "Anonymous";
 
-const socket = io.connect("ws://localhost:8001");
+// const socket = io.connect("ws://localhost:10000");
+const socket = io.connect("wss://chat-server-server.onrender.com");
 
 window.onload = () => {
   const join_option_input = prompt('Select: "CREATE" or "JOIN"', "CREATE");

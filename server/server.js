@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 
 let rooms = [];
 
-const io = new Server(8001, {
+const io = new Server(10000, {
   cors: {
     origin: "*",
   },
